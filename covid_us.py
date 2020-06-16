@@ -26,7 +26,7 @@ df = df.rename(columns={'positive':'total_positives',
 # delete feb data - nothing really starts till march in USA
 df = df[:104]
     
-def plot(*args, x='date'):
+def plot(*args, x='date', color='b'):
     """*args are column names from the USA COVID-19 dataframe (df). 
     Each arg is plotted against x, which defaults to 'date'
     Use df.info() to see column names"""
@@ -39,20 +39,31 @@ def plot(*args, x='date'):
     plot_data = df[a].dropna()
     # format dates
     locator = mdates.MonthLocator()
-    formatter = mdates.DateFormatter('%Y-%m-%d')
+    formatter = mdates.DateFormatter('%m-%d')
     # set up axes for subplots
     fig, ax = plt.subplots(nrows=len(args), ncols=1, figsize=(8, 8))
     # for space between plots
     fig.tight_layout()
-    for i in range(len(args)):
+    if len(args) == 1:
+        args = ''.join(args)
         # format date on x-axis
-        ax[i].xaxis.set_major_locator(locator)
-        ax[i].xaxis.set_major_formatter(formatter)
-        ax[i].set_xlim(plot_data[x].iloc[-1], plot_data[x][0])
+        ax.xaxis.set_major_locator(locator)
+        ax.xaxis.set_major_formatter(formatter)
+        ax.set_xlim(plot_data[x].iloc[-1], plot_data[x][0])
         # make plot
-        ax[i].plot(plot_data[x], plot_data[args[i]], 'bo', linestyle='-')
+        ax.plot(plot_data[x], plot_data[args], color=color, linestyle='-')
         # set titles
-        ax[i].set_title(args[i])
+        ax.set_title(args)
+    else:
+        for i in range(len(args)):
+            # format date on x-axis
+            ax[i].xaxis.set_major_locator(locator)
+            ax[i].xaxis.set_major_formatter(formatter)
+            ax[i].set_xlim(plot_data[x].iloc[-1], plot_data[x][0])
+            # make plot
+            ax[i].plot(plot_data[x], plot_data[args[i]], color=color, linestyle='-')
+            # set titles
+            ax[i].set_title(args[i])
     # style
     plt.style.use('ggplot')
     # show plots
