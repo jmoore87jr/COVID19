@@ -1,6 +1,5 @@
 # COVID19
 
-covid_us.py contains a function for plotting country-level COVID-19 data for USA. all data is from https://covidtracking.com.
+covid_plots.py contains functions for plotting COVID-19 USA-level and state-level data. All data is from https://covidtracking.com.
 
-covid19.ipynb walks you through how to create your own plots.
 
